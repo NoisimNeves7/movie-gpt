@@ -3,7 +3,7 @@ import logo from '/logo.png'
 
 const Header = () => {
   return (
-    <div className=' '>
+    <div >
         <img src={logo} className='w-44 ' alt="" />
     </div>
   )
