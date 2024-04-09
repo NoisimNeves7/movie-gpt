@@ -1,16 +1,23 @@
 import React, { useRef, useState } from "react";
 import bg from "/bg.jpg";
-import Header from "./Header";
+import Header from "./template/Header";
 import { validate, checkSignUpData } from "./utils/validate";
 import { auth } from "./utils/firebase";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import {useNavigate} from 'react-router-dom'
+import {useDispatch} from 'react-redux'
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+
+import { addUser } from "../store/reducers/userSlice";
 // import { getAuth } from "firebase/auth";
 
 const Login = () => {
   const [IsSignin, setIsSignin] = useState(true);
   const [errorMessage, seterrorMessage] = useState(null);
-  const navigate = useNavigate()
+
+  const dispatch = useDispatch()
 
   const toggleSignInForm = () => {
     setIsSignin(!IsSignin);
@@ -19,38 +26,42 @@ const Login = () => {
   const email = useRef(null);
   const password = useRef(null);
   const name = useRef(null);
+  const url = useRef(null);
 
   const handleButtonClick = () => {
-
     // -------------SIGN IN CODE----------------
     if (IsSignin) {
       const data = validate(email.current.value, password.current.value);
       console.log(data);
       seterrorMessage(data);
 
+      //   ----------------SIGN IN LOGIC --------------
+      if (data) return;
 
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const { user } = userCredential;
+          // console.log(user);
 
-    //   ----------------SIGN IN LOGIC --------------
-    if(data)return;
-
-    signInWithEmailAndPassword(auth,email.current.value,password.current.value)
-    .then((userCredential)=>{
-        const {user} = userCredential;
-        console.log(user);
-        navigate('/browse')
-    })
-    .catch(error=>{
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        if(errorCode.includes("invalid-credential")){seterrorMessage("Invalid Credentials / User not Found ")}
-        // seterrorMessage(errorCode+" - "+ errorMessage)
+          
         
-    })
+         
 
-
-
-
-    } 
+          
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          if (errorCode.includes("invalid-credential")) {
+            seterrorMessage("Invalid Credentials / User not Found ");
+          }
+          else seterrorMessage(errorCode+" - "+ errorMessage)
+        });
+    }
     // -------------SIGN UP CODE----------------
     else {
       const data = checkSignUpData(
@@ -64,19 +75,52 @@ const Login = () => {
       if (data) return;
 
       // ------------------------SIGNUP LOGIC--------------------------------
-      createUserWithEmailAndPassword(auth ,email.current.value,password.current.value)
-      .then((userCredential)=>{
-        const {user} = userCredential
-        console.log(user)
-        navigate('/browse')
-      })
-      .catch((error)=>{
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        if(errorCode.includes("email-already-in-use")){seterrorMessage("Email is already registered")}
-        // seterrorMessage(errorCode + " " + errorMessage)
-        
-      })
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const { user } = userCredential;
+          console.log(user);
+
+
+          // NOW IF THE USER HAS COME TO THIS STEPS MEAN NOW THE USER IS GOING TO SIGNED IN SO I WILL UPDATE THE USER PROFILE BY THAT I MEAN I WILL SEND THE DATA OF NAME AND PHOTO URL
+          updateProfile(user, {
+            displayName: name.current.value, photoURL: url.current.value
+          }).then(() => {
+            // Profile updated!
+            
+            // Dispatching The action from here so that image and can be updated easily 
+            const {uid,email,displayName,photoURL}= auth.currentUser;
+      console.log(user)
+      dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}))
+      console.log('dispatched')
+
+            
+            // ...
+          }).catch((error) => {
+            // An error occurred
+            // ...
+            seterrorMessage(error.message)
+            console.log(error)
+          });
+
+
+
+
+
+
+         
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          if (errorCode.includes("email-already-in-use")) {
+            seterrorMessage("Email is already registered");
+          }
+          // seterrorMessage(errorCode + " " + errorMessage)
+        });
     }
   };
 
@@ -88,7 +132,7 @@ const Login = () => {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
-      className="w-screen h-screen px-24 py-4"
+      className="w-screen h-screen overflow-y-auto"
     >
       <Header />
       <form
@@ -104,6 +148,14 @@ const Login = () => {
             className="px-3 text-xl py-3 w-[70%] border border-zinc-600  bg-[#000000b1]  rounded-md"
             type="name"
             placeholder="Name"
+          />
+        )}
+        {!IsSignin && (
+          <input
+            ref={url}
+            className="px-3 text-xl py-3 w-[70%] border border-zinc-600  bg-[#000000b1]  rounded-md"
+            type="url"
+            placeholder="Image Url"
           />
         )}
         <input
