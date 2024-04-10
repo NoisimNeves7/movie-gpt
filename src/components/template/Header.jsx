@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import logo from '/logo.png'
-import {Link} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import { auth } from '../utils/firebase';
 import { signOut } from 'firebase/auth';
 import {  useSelector } from "react-redux";
 import { Multi_language, userDefaulltImage } from '../utils/constants';
 import axios from '../utils/axios'
 import noimage from '/noimage.jpg'
-import { toggleGptSearchView } from '../../store/reducers/gptSlice';
+import { removeMovieResult, setSearchBtnClicked, toggleGptSearchView } from '../../store/reducers/gptSlice';
 import {useDispatch} from 'react-redux'
 import { changeLanguage } from '../../store/reducers/configSlice';
 
 const Header = () => {
 
   const dispatch = useDispatch();
+  const {pathname} = useLocation()
+  // console.log(pathname)
   
   const user  = useSelector(state=>state.user);
   const gptStatus = useSelector(state=>state.gpt.value)
@@ -30,6 +32,12 @@ const Header = () => {
 
   // console.log(user.value)
 
+  // --------------wrtiting code for toggling the home ,gpt search page and removing the data when i leave the gpt search  
+const handleHome_GptSearch_page = ()=>{
+  dispatch(toggleGptSearchView())
+  dispatch(removeMovieResult());
+  dispatch(setSearchBtnClicked(false))
+}
  
 
   //----------------------------------SIGN OUT CODE------------------------------
@@ -100,10 +108,10 @@ useEffect(()=>{
             {Multi_language.map((value,index)=><option key={index} value={value.identifier}>{value.name}</option>)}
             
           </select>}
-          <button onClick={()=>dispatch(toggleGptSearchView())} className='px-3 py-2 bg-purple-700 text-white rounded-lg font-bold hover:text-purple-700 hover:bg-white duration-300'>{!gptStatus ? 'Gpt Search':'Home'}</button>
+          {pathname.includes('browse') && <button onClick={()=>handleHome_GptSearch_page()} className='px-3 py-2 bg-purple-700 text-white rounded-lg font-bold hover:text-purple-700 hover:bg-white duration-300'>{!gptStatus ? 'Gpt Search':'Home'}</button>}
         <p className='text-white text-lg font-bold'>{user.value.displayName}</p> 
           <img className='w-14 h-14 object-cover rounded-2xl' src={user.value.photoURL ? user.value.photoURL : userDefaulltImage } alt="" />
-          <button className='text-sm' onClick={()=>handleSignOutClick()} >Log Out</button>
+          <button className='text-sm font-bold text-[#e50914] hover:text-white' onClick={()=>handleSignOutClick()} >Log Out <i className="ri-logout-box-r-line"></i></button>
 
 
 

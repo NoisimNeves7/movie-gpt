@@ -8,3 +8,5 @@ export const Multi_language = [
   { identifier: 'ma', name: "Marathi" },
   { identifier: 'ta', name: "Tamil" },
 ];
+
+export const OPENAI_API_KEY =  import.meta.env.VITE_OPENAI_KEY

@@ -21,7 +21,7 @@ const DisplayWallpaper = ({ wallpaper }) => {
       </h1>
       <p className="lg:w-[70%] text-sm lg:text-base text-white">
         {wallpaper.overview.slice(0, 200)}...
-        <Link to={`${wallpaper.media_type}/detail/${wallpaper.id}`} className="text-blue-600 hover:border-b-2 hover:border-blue-600 ">more</Link>
+        <Link to={`/${wallpaper.media_type}/detail/${wallpaper.id}`} className="text-blue-600 hover:border-b-2 hover:border-blue-600 ">more</Link>
       </p>
       <p className="text-white  text-sm lg:text-base">
         <i className="mr-2 ri-megaphone-fill text-yellow-500"></i>

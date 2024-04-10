@@ -11,6 +11,11 @@ import Popular from './components/Popular'
 import Tv from './components/Tv'
 import People from './components/People'
 import Movies from './components/Movies'
+import TvDetails from './components/TvDetails'
+import PeopleDetails from './components/PeopleDetails'
+import MovieDetails from './components/MovieDetails'
+import Trailer from './components/template/Trailer'
+import NotFound from './components/template/NotFound'
 
 
 const App = () => {
@@ -22,15 +27,18 @@ const App = () => {
 useEffect(()=>{
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/auth.user
-      const {uid,email,displayName,photoURL}= user;
-      // console.log(user)
-      dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}))
-      navigate('/browse')
-      
-      
-      // ...
+      const { uid, email, displayName, photoURL } = user;
+      dispatch(
+        addUser({
+          uid: uid,
+          email: email,
+          displayName: displayName,
+          photoURL: photoURL,
+        })
+      );
+      if (window.location.pathname === "/") {
+        navigate("/browse");
+      }
     } else {
       // User is signed out
       // ...
@@ -47,9 +55,17 @@ useEffect(()=>{
       <Route path='/browse' element={<Browse/>}/>
       <Route path='/trending' element={<Trending/>}/>
       <Route path='/tv' element={<Tv/>}/>
+      <Route path='/tv/detail/:id' element={<TvDetails/>}>
+        <Route path='/tv/detail/:id/trailer' element={<Trailer/>} />
+      </Route>
       <Route path='/person' element={<People/>}/>
+      <Route path='/person/detail/:id' element={<PeopleDetails/>}/>
       <Route path='/popular' element={<Popular/>}/>
       <Route path='/movie' element={<Movies/>}/>
+      <Route path='/movie/detail/:id' element={<MovieDetails/>}>
+        <Route path='/movie/detail/:id/trailer' element={<Trailer/>} />
+      </Route>
+      <Route path='*' element={<NotFound/>} />
       </Routes>
     </div>
   )

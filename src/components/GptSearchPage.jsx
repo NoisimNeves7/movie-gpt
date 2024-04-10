@@ -1,8 +1,11 @@
 import React from "react";
 import bg from "/bg.jpg";
 import GptSearchBar from "./template/GptSearchBar";
+import GptMovieSuggestions from "./template/GptMovieSuggestions";
+
 
 const GptSearch = () => {
+  
   return (
     <div
       style={{
@@ -11,9 +14,10 @@ const GptSearch = () => {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
-      className="w-screen h-[90%] "
+      className="w-screen h-[90%] overflow-y-auto "
     >
       <GptSearchBar/>
+      <GptMovieSuggestions/>
     </div>
   );
 };
