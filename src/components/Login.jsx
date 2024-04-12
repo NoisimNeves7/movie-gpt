@@ -3,7 +3,7 @@ import bg from "/bg.jpg";
 import Header from "./template/Header";
 import { validate, checkSignUpData } from "./utils/validate";
 import { auth } from "./utils/firebase";
-import {useDispatch} from 'react-redux'
+import { useDispatch ,useSelector } from "react-redux";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -11,13 +11,17 @@ import {
 } from "firebase/auth";
 
 import { addUser } from "../store/reducers/userSlice";
+import Footer from "./template/Footer";
+import lang from "./utils/languageConstant";
 // import { getAuth } from "firebase/auth";
 
 const Login = () => {
   const [IsSignin, setIsSignin] = useState(true);
   const [errorMessage, seterrorMessage] = useState(null);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const language = useSelector(state=>state.language.value);
 
   const toggleSignInForm = () => {
     setIsSignin(!IsSignin);
@@ -46,20 +50,13 @@ const Login = () => {
         .then((userCredential) => {
           const { user } = userCredential;
           // console.log(user);
-
-          
-        
-         
-
-          
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           if (errorCode.includes("invalid-credential")) {
             seterrorMessage("Invalid Credentials / User not Found ");
-          }
-          else seterrorMessage(errorCode+" - "+ errorMessage)
+          } else seterrorMessage(errorCode + " - " + errorMessage);
         });
     }
     // -------------SIGN UP CODE----------------
@@ -84,34 +81,35 @@ const Login = () => {
           const { user } = userCredential;
           console.log(user);
 
-
           // NOW IF THE USER HAS COME TO THIS STEPS MEAN NOW THE USER IS GOING TO SIGNED IN SO I WILL UPDATE THE USER PROFILE BY THAT I MEAN I WILL SEND THE DATA OF NAME AND PHOTO URL
           updateProfile(user, {
-            displayName: name.current.value, photoURL: url.current.value
-          }).then(() => {
-            // Profile updated!
-            
-            // Dispatching The action from here so that image and can be updated easily 
-            const {uid,email,displayName,photoURL}= auth.currentUser;
-      console.log(user)
-      dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}))
-      console.log('dispatched')
+            displayName: name.current.value,
+            photoURL: url.current.value,
+          })
+            .then(() => {
+              // Profile updated!
 
-            
-            // ...
-          }).catch((error) => {
-            // An error occurred
-            // ...
-            seterrorMessage(error.message)
-            console.log(error)
-          });
+              // Dispatching The action from here so that image and can be updated easily
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              console.log(user);
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+              console.log("dispatched");
 
-
-
-
-
-
-         
+              // ...
+            })
+            .catch((error) => {
+              // An error occurred
+              // ...
+              seterrorMessage(error.message);
+              console.log(error);
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -140,7 +138,7 @@ const Login = () => {
         className=" bg-[#000000b1] w-96 py-10 container mx-auto my-4 flex flex-col gap-10 items-center justify-center text-white rounded-lg"
       >
         <h1 className="text-3xl font-bold">
-          {IsSignin ? "Sign In" : "Sign Up"}
+          {IsSignin ? lang[language].siginIn : lang[language].signUp}
         </h1>
         {!IsSignin && (
           <input
@@ -179,31 +177,33 @@ const Login = () => {
             className="px-4 py-2 text-lg bg-[#E50914] rounded font-medium w-full"
           >
             {" "}
-            {IsSignin ? "Sign In" : "Sign Up"}
+            {IsSignin ? lang[language].siginIn : lang[language].signUp}
           </button>
           {IsSignin ? (
             <p className="text-zinc-400 mt-4 mb-10">
-              New To Netflix?{" "}
+              {lang[language].newToNetflix}{" "}
               <span
                 onClick={() => toggleSignInForm()}
                 className="font-bold cursor-pointer text-white hover:border-b-2 "
               >
-                Sign Up Now
+                {lang[language].signUpNow}
               </span>
             </p>
           ) : (
             <p className="text-zinc-400 mt-4 mb-10">
-              Already Registered?{" "}
+              {lang[language].alreadyRegistered}{" "}
               <span
                 onClick={() => toggleSignInForm()}
                 className="font-bold cursor-pointer text-white hover:border-b-2"
               >
-                Sign In
+                {lang[language].siginIn}
               </span>
             </p>
           )}
+          <p className="text-sm text-zinc-400">{lang[language].Learn_more} <span className="text-blue-500 hover:border-b-2 hover:border-blue-500 cursor-pointer">Learn more.</span></p>
         </div>
       </form>
+      <Footer/>
     </div>
   );
 };

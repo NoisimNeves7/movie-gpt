@@ -8,7 +8,7 @@ import HorizontalCards from "./template/HorizontalCards";
 import Dropdown from "./template/Dropdown";
 
 const PeopleDetails = () => {
-  document.title = 'NEVES7 | Person Details'
+  document.title = 'Netflix | Person Details'
   const { id } = useParams();
   // console.log(id);
   const dispatch = useDispatch();

@@ -36,7 +36,7 @@ const Popular = () => {
     }
   }
   
-  console.log(popular)
+  // console.log(popular)
   useEffect(()=>{
     refreshHandler()
   },[category])
@@ -46,7 +46,7 @@ const Popular = () => {
 
       {/* -------------------------------Navbar--------------------------- */}
       <div className='w-[100%] flex justify-between items-center text-zinc-400 mt-10 px-10 mb-10'>
-        <h1 className='  text-2xl font-bold'>POPULAR {category.toUpperCase()}{category==='tv' ? " SHOW's" :"'s"}</h1>
+        <h1 className='  lg:text-2xl font-bold'>POPULAR {category.toUpperCase()}{category==='tv' ? " SHOW's" :"'s"}</h1>
         <Dropdown title={"Category"} options={['tv','movie']} funct={(e)=>setcategory(e.target.value)}/>
       </div>
 

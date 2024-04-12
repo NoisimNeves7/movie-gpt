@@ -25,7 +25,7 @@ const App = () => {
   
 
 useEffect(()=>{
-  onAuthStateChanged(auth, (user) => {
+  const unsubscribe= onAuthStateChanged(auth, (user) => {
     if (user) {
       const { uid, email, displayName, photoURL } = user;
       dispatch(
@@ -36,20 +36,23 @@ useEffect(()=>{
           photoURL: photoURL,
         })
       );
-      if (window.location.pathname === "/") {
+    
         navigate("/browse");
-      }
+      
     } else {
       // User is signed out
-      // ...
-      navigate('/')
-      dispatch(removeUser())
+      dispatch(removeUser());
+      navigate("/");
     }
   });
+
+  return () => unsubscribe();
 },[])
 
   return (
     <div className='w-screen h-screen bg-[#1F1E24]'>
+      
+      {/* {userSignedOut && <Redirect to='/' />} */}
       <Routes>
       <Route path='/' element={<Login/>}/>
       <Route path='/browse' element={<Browse/>}/>

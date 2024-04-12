@@ -58,7 +58,7 @@ const Browse = () => {
   }, [tredningCategory, popularCategory]);
 
   return wallpaper && trending && popular ? (
-    <div className="h-screen  w-screen ">
+    <div className="h-screen  w-screen  ">
       <Header />
       { showGptSearch ? <GptSearch/>:
       <div className="h-[90%] flex">

@@ -14,7 +14,7 @@ const GptSearch = () => {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
-      className="w-screen h-[90%] overflow-y-auto "
+      className="w-screen h-full lg:h-[90%] overflow-y-auto "
     >
       <GptSearchBar/>
       <GptMovieSuggestions/>

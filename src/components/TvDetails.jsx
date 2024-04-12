@@ -11,7 +11,7 @@ import noimage from '/noimage.jpg'
 
 const TvDetails = () => {
 
-  document.title = 'NEVES7 | Tv Show Details'
+  document.title = 'Netflix | Tv Show Details'
   const { id } = useParams();
   // console.log(id)
 

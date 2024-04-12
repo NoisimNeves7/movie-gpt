@@ -8,7 +8,7 @@ import { SiImdb } from "react-icons/si";
 import HorizontalCards from "./template/HorizontalCards";
 
 const MovieDetails = () => {
-  document.title = 'NEVES7 | Movie Details'
+  document.title = 'Netflix | Movie Details'
   const navigate = useNavigate();
   const { info } = useSelector((state) => state.movie);
   // console.log(info);

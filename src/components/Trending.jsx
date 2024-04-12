@@ -51,13 +51,13 @@ const Trending = () => {
       <Header />
 
       {/* ------------------------NAVBAR------------------------------- */}
-      <div className="  w-[100%] flex justify-between items-center text-zinc-400 mt-10 px-10 mb-10">
+      <div className="  w-[100%] lg:flex justify-between   items-center text-zinc-400 mt-10 px-10 mb-10">
         <Dropdown
           title={"Category"}
           options={["movie", "tv", "all"]}
           funct={(e) => setcategory(e.target.value)}
         />
-        <h1 className="text-2xl font-bold">
+        <h1 className="lg:text-2xl font-bold mt-5 mb-5 lg:mt-0 lg:mb:0">
           TRENDING {category === "tv" && "ON "}
           {category.toUpperCase()} {timeFrame === "week" ? "THIS " : "TO"}
           {timeFrame.toUpperCase()}{" "}

@@ -23,7 +23,7 @@ export const asyncLoadTv = ({id}) => async (dispatch) => {
         videos:videos.data.results.find(d => d.type === 'Trailer'),
         watchProviders:watchProviders.data.results.IN,
     }
-    console.log(ulitmateData)
+    // console.log(ulitmateData)
     dispatch(loadTv(ulitmateData))
   } catch (error) {
     console.log("error : " + error);

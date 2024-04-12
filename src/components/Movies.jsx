@@ -53,8 +53,8 @@ const Movies = () => {
 
 
        {/* -------------------------------Navbar--------------------------- */}
-       <div className='w-[100%] flex justify-between items-center text-zinc-400 mt-10 px-10 mb-10'>
-        <h1 className='  text-2xl font-bold'>MOVIE's <span className='text-base'>({category==='now_playing' ? " CURRENTLY IN THEATRES " :category.toUpperCase()})</span></h1>
+       <div className='w-[100%] lg:flex  justify-between items-center text-zinc-400 mt-10 px-10 mb-10'>
+        <h1 className='  lg:text-2xl mb-2 lg:mb-0 font-bold'>MOVIE's <span className='text-xs lg:text-base'>({category==='now_playing' ? " CURRENTLY IN THEATRES " :category.toUpperCase()})</span></h1>
         <Dropdown title={"Category"} options={['popular','top_rated','upcoming','now_playing']} funct={(e)=>setcategory(e.target.value)}/>
       </div>
 
