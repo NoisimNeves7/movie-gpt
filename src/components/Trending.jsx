@@ -7,6 +7,7 @@ import Loader from "./template/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const Trending = () => {
+  document.title = 'Netflix Gpt | Trending'
   const [trending, settrending] = useState([]);
   const [category, setcategory] = useState("all");
   const [timeFrame, settimeFrame] = useState("week");

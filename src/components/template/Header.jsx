@@ -14,11 +14,15 @@ import {
 } from "../../store/reducers/gptSlice";
 import { useDispatch } from "react-redux";
 import { changeLanguage } from "../../store/reducers/configSlice";
+import lang from "../utils/languageConstant";
 
 const Header = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   // console.log(pathname)
+
+  const {value} = useSelector(state=>state.language)
+  
 
   const user = useSelector((state) => state.user);
   const gptStatus = useSelector((state) => state.gpt.value);
@@ -142,7 +146,7 @@ const Header = () => {
               onClick={() => handleHome_GptSearch_page()}
               className="lg:px-3 lg:py-2 px-2 py-1 text-sm lg:text-base bg-purple-700 text-white rounded-lg font-bold hover:text-purple-700 hover:bg-white duration-300"
             >
-              {!gptStatus ? "Gpt Search" : "Home"}
+              {!gptStatus ? lang[value].gpt_search : lang[value].home}
             </button>
           )}
           <p className="text-white text-lg font-bold hidden lg:block">
@@ -157,7 +161,7 @@ const Header = () => {
             className="text-sm font-bold text-[#e50914] hover:text-white"
             onClick={() => handleSignOutClick()}
           >
-            Log Out <i className="ri-logout-box-r-line"></i>
+            {lang[value].logOut} <i className="ri-logout-box-r-line"></i>
           </button>
         </div>
       )}

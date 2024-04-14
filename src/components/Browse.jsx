@@ -14,6 +14,10 @@ import GptSearch from "./GptSearchPage";
 import HorizontalMovieList from "./template/HorizontalMovieList";
 
 const Browse = () => {
+
+  document.title = "Netflix Gpt | Homepage";
+
+
   const showGptSearch = useSelector((state) => state.gpt.value);
   // console.log(showGptSearch);
 

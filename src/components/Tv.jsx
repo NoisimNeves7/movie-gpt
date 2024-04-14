@@ -7,6 +7,9 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Loader from './template/Loader';
 
 const Tv = () => {
+  document.title = 'Netflix Gpt | Tv Shows'
+
+
   const [tv, settv] = useState([]);
   const [category, setcategory] = useState('top_rated')
   const [page, setpage] = useState(1)

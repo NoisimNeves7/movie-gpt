@@ -7,6 +7,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Loader from './template/Loader'
 
 const Movies = () => {
+  document.title = 'Netflix Gpt | Movies'
 
   const [movie, setmovie] = useState([]);
   const [category, setcategory] = useState('now_playing')
