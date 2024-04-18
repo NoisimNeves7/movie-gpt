@@ -36,8 +36,11 @@ useEffect(()=>{
           photoURL: photoURL,
         })
       );
-    
+      console.log(window.location.pathname)
+      if (window.location.pathname === "/") {
+        
         navigate("/browse");
+      }
       
     } else {
       // User is signed out

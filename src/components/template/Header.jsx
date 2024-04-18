@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import logo from "/logo.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { auth } from "../utils/firebase";
 import { signOut } from "firebase/auth";
 import { useSelector } from "react-redux";
@@ -20,11 +20,14 @@ const Header = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   // console.log(pathname)
+  
 
   const {value} = useSelector(state=>state.language)
   
+  
 
   const user = useSelector((state) => state.user);
+  
   const gptStatus = useSelector((state) => state.gpt.value);
   const [query, setquery] = useState("");
   const [searches, setsearches] = useState([]);
@@ -45,6 +48,7 @@ const Header = () => {
     dispatch(removeMovieResult());
     dispatch(setSearchBtnClicked(false));
   };
+  
 
   //----------------------------------SIGN OUT CODE------------------------------
   const handleSignOutClick = () => {
@@ -59,6 +63,7 @@ const Header = () => {
   };
 
   useEffect(() => {
+   
     getSearches();
   }, [query]);
 
@@ -68,7 +73,7 @@ const Header = () => {
         user.value && "border-b-[0.2px] border-zinc-500"
       }`}
     >
-      <Link to={"/browse"}>
+      <Link to={user.value && '/browse'}>
         <img src={logo} className="w-44 " alt="" />
       </Link>
 
