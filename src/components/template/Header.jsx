@@ -146,7 +146,7 @@ const Header = () => {
               onClick={() => handleHome_GptSearch_page()}
               className="lg:px-3 lg:py-2 px-2 py-1 text-sm lg:text-base bg-purple-700 text-white rounded-lg font-bold hover:text-purple-700 hover:bg-white duration-300"
             >
-              {!gptStatus ? lang[value].gpt_search : lang[value].home}
+              {!gptStatus ? lang[value].gptSearch : lang[value].home}
             </button>
           )}
           <p className="text-white text-lg font-bold hidden lg:block">
