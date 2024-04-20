@@ -36,7 +36,7 @@ const Login = () => {
     // -------------SIGN IN CODE----------------
     if (IsSignin) {
       const data = validate(email.current.value, password.current.value);
-      console.log(data);
+      // console.log(data);
       seterrorMessage(data);
 
       //   ----------------SIGN IN LOGIC --------------
@@ -66,7 +66,7 @@ const Login = () => {
         email.current.value,
         password.current.value
       );
-      console.log(data);
+      // console.log(data);
       seterrorMessage(data);
 
       if (data) return;
@@ -79,7 +79,7 @@ const Login = () => {
       )
         .then((userCredential) => {
           const { user } = userCredential;
-          console.log(user);
+          // console.log(user);
 
           // NOW IF THE USER HAS COME TO THIS STEPS MEAN NOW THE USER IS GOING TO SIGNED IN SO I WILL UPDATE THE USER PROFILE BY THAT I MEAN I WILL SEND THE DATA OF NAME AND PHOTO URL
           updateProfile(user, {
@@ -91,7 +91,7 @@ const Login = () => {
 
               // Dispatching The action from here so that image and can be updated easily
               const { uid, email, displayName, photoURL } = auth.currentUser;
-              console.log(user);
+              // console.log(user);
               dispatch(
                 addUser({
                   uid: uid,
@@ -100,7 +100,7 @@ const Login = () => {
                   photoURL: photoURL,
                 })
               );
-              console.log("dispatched");
+              // console.log("dispatched");
 
               // ...
             })

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import logo from "/logo.png";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { auth } from "../utils/firebase";
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useSelector } from "react-redux";
 import { Multi_language, userDefaulltImage } from "../utils/constants";
 import axios from "../utils/axios";
@@ -15,10 +15,12 @@ import {
 import { useDispatch } from "react-redux";
 import { changeLanguage } from "../../store/reducers/configSlice";
 import lang from "../utils/languageConstant";
+import {addUser, removeUser} from '../../store/reducers/userSlice'
 
 const Header = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   // console.log(pathname)
   
 
@@ -63,8 +65,36 @@ const Header = () => {
   };
 
   useEffect(() => {
-   
+  
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const { uid, email, displayName, photoURL } = user;
+      dispatch(
+        addUser({
+          uid: uid,
+          email: email,
+          displayName: displayName,
+          photoURL: photoURL,
+        })
+      );
+      // console.log(window.location.pathname)
+      if (window.location.pathname === "/") {
+        
+        navigate("/browse");
+      }
+      
+    } else {
+      // User is signed out
+      dispatch(removeUser());
+      navigate("/");
+    }
+  });
+
+
+
+
     getSearches();
+
   }, [query]);
 
   return (
